@@ -171,10 +171,10 @@ async function autoLoadAssetsAndStart() {
         
         // 2. 加载图片文件
         const imagePaths = [
-            'assets/images/1.gif',
-            'assets/images/2.gif',
-            'assets/images/3.gif',
-            'assets/images/4.gif'
+            'assets/images/1.jpg',
+            'assets/images/2.jpg',
+            'assets/images/3.jpg',
+            'assets/images/4.jpg'
         ];
         
         uploadedImages = [];

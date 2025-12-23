@@ -1,84 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
- 
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
- 
-    <!-- 页面标题 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#161616">
     <title>圣诞树</title>
- 
-    <!-- 引入CSS重置样式，确保跨浏览器一致性 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="style.css">
- 
-    <!-- 控制台兼容性处理：防止控制台未定义导致错误 -->
-    <script>
-        window.console = window.console || function (t) { };
-    </script>
- 
-    <!-- 嵌入模式处理：如果页面以嵌入模式加载，通知父窗口调整大小 -->
-    <script>
-        if (document.location.search.match(/type=embed/gi)) {
-            window.parent.postMessage("resize", "*");
-        }
-    </script>
- 
- 
 </head>
- 
-<body translate="no">
-    <!-- 引入Three.js核心库 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
-    <!-- 引入后处理效果合成器 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <!-- 引入渲染通道 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/RenderPass.js"></script>
-    <!-- 引入着色器通道 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <!-- 引入复制着色器 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/shaders/CopyShader.js"></script>
-    <!-- 引入亮度高通过滤着色器 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <!-- 引入虚幻引擎风格的泛光效果 -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-    
-    <!-- 首页设置界面：已隐藏，自动加载assets目录下的资源 -->
-    <div id="overlay" style="display: none;">
-        <ul>
-            <li class="title">✨ 上传你的美照 ✨</li>
-            <li>
-                <input type="file" id="imageUpload" multiple accept="image/*" hidden />
-                <label for="imageUpload" class="btn" style="cursor: pointer;">
-                    📷 选择多张照片
-                </label>
-            </li>
-            <li id="imagePreview" style="display: none;"></li>
-            <li class="separator">然后</li>
-            <li class="title">🎵 选择音乐 🎵</li>
-            <li>
-                <button class="btn" id="btnA" type="button">
-                    Snowflakes Falling Down by Simon Panrucker
-                </button>
-            </li>
-            <li><button class="btn" id="btnB" type="button">This Christmas by Dott</button></li>
-            <li><button class="btn" id="btnC" type="button">No room at the inn by TRG Banks</button></li>
-            <li><button class="btn" id="btnD" type="button">Jingle Bell Swing by Mark Smeby</button></li>
-            <li class="separator">或者</li>
-            <li>
-                <!-- 音频文件上传输入框：隐藏，通过label触发 -->
-                <input type="file" id="upload" accept="audio/*" hidden />
-                <label for="upload">上传音频文件</label>
-            </li>
-            <li style="text-align: center; margin-top: 20px;">
-                <button id="startBtn" type="button" disabled>🎄 开始魔法之旅 🎄</button>
-            </li>
-        </ul>
-    </div>
-    <script src="script.js"></script>
-    <script id="rendered-js">
-       
-    </script>
- 
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
 </body>
- 
 </html>

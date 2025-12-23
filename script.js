@@ -588,17 +588,22 @@ function checkAndStartAudio() {
     } else {
         // 上下文已激活，尝试播放
         console.log('音频上下文已激活，尝试播放');
-        if (!playAudio()) {
-            // 如果播放失败，显示提示
-            showAudioPlayPrompt();
-        }
+        playAudio(() => {
+            // 播放成功后，移除可能存在的按钮
+            const promptElement = document.getElementById('audioPlayPrompt');
+            if (promptElement) {
+                promptElement.remove();
+            }
+        });
     }
 }
 
 /**
  * 播放音频（处理浏览器自动播放限制）
+ * @param {Function} onSuccess - 播放成功后的回调函数
+ * @returns {boolean} 是否立即返回成功（异步播放时返回false）
  */
-function playAudio() {
+function playAudio(onSuccess) {
     if (!audio) {
         console.warn('音频对象不存在');
         return false;
@@ -629,27 +634,74 @@ function playAudio() {
             try {
                 audio.play();
                 console.log('音频播放成功');
-                return true;
+                
+                // 设置音频结束事件监听
+                setupAudioEndListener();
+                
+                // 调用成功回调
+                if (onSuccess) {
+                    onSuccess();
+                }
             } catch (error) {
                 console.error('播放音频时出错:', error);
-                return false;
             }
         }).catch((error) => {
             console.error('恢复音频上下文失败:', error);
-            return false;
         });
-        return false;
+        return false; // 异步播放，返回false
     }
     
     // 尝试播放音频
     try {
         audio.play();
         console.log('音频播放命令已发送');
+        
+        // 设置音频结束事件监听
+        setupAudioEndListener();
+        
+        // 调用成功回调
+        if (onSuccess) {
+            onSuccess();
+        }
+        
         return true;
     } catch (error) {
         console.error('播放音频时出错:', error);
         return false;
     }
+}
+
+/**
+ * 设置音频结束事件监听
+ */
+function setupAudioEndListener() {
+    // 移除旧的监听器（如果存在）
+    if (audio.source && audio.source._endedHandler) {
+        audio.source.removeEventListener('ended', audio.source._endedHandler);
+    }
+    
+    // 等待source创建后添加监听器
+    const checkSource = () => {
+        if (audio.source) {
+            // 创建结束事件处理函数
+            const endedHandler = () => {
+                console.log('音频播放完成，重新显示按钮');
+                // 清除source引用，下次播放时会重新创建
+                audio.source = null;
+                // 重新显示按钮
+                showAudioPlayPrompt();
+            };
+            
+            // 保存引用以便后续移除
+            audio.source._endedHandler = endedHandler;
+            audio.source.addEventListener('ended', endedHandler);
+        } else {
+            // 如果source还未创建，延迟检查
+            setTimeout(checkSource, 50);
+        }
+    };
+    
+    checkSource();
 }
 
 /**
@@ -695,9 +747,14 @@ function showAudioPlayPrompt() {
     
     // 点击按钮后播放音频并移除提示
     prompt.addEventListener('click', () => {
-        if (playAudio()) {
-            prompt.remove();
-        }
+        // 使用回调函数，确保异步播放成功后也能移除按钮
+        playAudio(() => {
+            // 播放成功后的回调：移除按钮
+            const promptElement = document.getElementById('audioPlayPrompt');
+            if (promptElement) {
+                promptElement.remove();
+            }
+        });
     });
     
     document.body.appendChild(prompt);

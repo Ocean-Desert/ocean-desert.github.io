@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+# Ensure images/binaries keep original formatting
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp3 binary
+*.mp4 binary
+*.ogg binary
+*.wav binary
+*.glb binary
+*.gltf binary
+*.bin binary
+
